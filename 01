@@ -1,0 +1,32 @@
+from collections import deque
+
+def bfs_camino_mas_corto(grafo, inicio, objetivo):
+    visitados = set()
+    cola = deque([(inicio, [inicio])])
+
+    while cola:
+        nodo, camino = cola.popleft()
+        if nodo == objetivo:
+            return camino
+        if nodo not in visitados:
+            visitados.add(nodo)
+            for vecino in grafo[nodo]:
+                if vecino not in visitados:
+                    cola.append((vecino, camino + [vecino]))
+    return None
+
+grafo = {
+    101: [102, 103],
+    102: [101, 104, 105],
+    103: [101, 105],
+    104: [102, 105],
+    105: [103, 104]
+}
+
+nodo_inicio = 101
+nodo_objetivo = 105
+camino = bfs_camino_mas_corto(grafo, nodo_inicio, nodo_objetivo)
+if camino:
+    print(f"El camino más corto desde el nodo {nodo_inicio} hasta el nodo {nodo_objetivo} es: {camino}")
+else:
+    print(f"No hay camino desde el nodo {nodo_inicio} hasta el nodo {nodo_objetivo}.")
